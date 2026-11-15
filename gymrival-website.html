@@ -1,0 +1,1041 @@
+<title>GymRival</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&display=swap">
+
+<style>
+/* ─── Design tokens: dark-first, red × black × off-white ─── */
+:root {
+  --bg:       #0f0f0f;
+  --bg2:      #161616;
+  --bg3:      #1e1e1e;
+  --border:   #2a2a2a;
+  --fg:       #f0f0f0;
+  --fg2:      #a0a0a0;
+  --fg3:      #606060;
+  --red:      #e63030;
+  --red-dim:  #b02020;
+  --white:    #ffffff;
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-body:    'DM Sans', system-ui, sans-serif;
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg:     #f5f5f5;
+    --bg2:    #ffffff;
+    --bg3:    #ebebeb;
+    --border: #d8d8d8;
+    --fg:     #111111;
+    --fg2:    #555555;
+    --fg3:    #999999;
+    color-scheme: light;
+  }
+}
+:root[data-theme="light"] {
+  --bg:     #f5f5f5;
+  --bg2:    #ffffff;
+  --bg3:    #ebebeb;
+  --border: #d8d8d8;
+  --fg:     #111111;
+  --fg2:    #555555;
+  --fg3:    #999999;
+  color-scheme: light;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 0;
+  overflow-x: hidden;
+}
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; display: block; }
+
+/* ─── NAV ─── */
+nav {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 100;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  padding-block: 16px;
+  padding-left: max(24px, env(safe-area-inset-left, 0px));
+  padding-right: max(24px, env(safe-area-inset-right, 0px));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0 0 auto;
+  height: env(safe-area-inset-top, 0px);
+  z-index: 101;
+  background: var(--bg);
+}
+.nav-logo {
+  font-family: var(--font-display);
+  font-size: 26px;
+  letter-spacing: 3px;
+  line-height: 1;
+}
+.nav-logo .gym { color: var(--red); }
+.nav-logo .rival { color: var(--fg); }
+.nav-links { display: flex; gap: 28px; align-items: center; }
+.nav-links a {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--fg2);
+  transition: color .2s;
+}
+.nav-links a:hover { color: var(--fg); }
+.nav-cta {
+  background: var(--red);
+  color: var(--white) !important;
+  padding: 8px 18px;
+  border-radius: 4px;
+  font-weight: 600 !important;
+  font-size: 13px !important;
+  letter-spacing: .04em !important;
+  transition: background .2s !important;
+}
+.nav-cta:hover { background: var(--red-dim) !important; }
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 4px;
+}
+.nav-hamburger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--fg);
+  border-radius: 2px;
+  transition: .3s;
+}
+
+/* ─── HERO ─── */
+.hero {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 90px 0 80px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+.hero-eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 16px;
+}
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(52px, 7vw, 88px);
+  line-height: .95;
+  letter-spacing: 2px;
+  text-wrap: balance;
+  margin-bottom: 24px;
+}
+.hero h1 em { color: var(--red); font-style: normal; }
+.hero-sub {
+  font-size: 17px;
+  color: var(--fg2);
+  line-height: 1.65;
+  max-width: 440px;
+  margin-bottom: 36px;
+}
+.hero-actions { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--red);
+  color: var(--white);
+  font-weight: 600;
+  font-size: 15px;
+  padding: 14px 28px;
+  border-radius: 4px;
+  transition: background .2s;
+}
+.btn-primary:hover { background: var(--red-dim); }
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  color: var(--fg2);
+  font-weight: 500;
+  font-size: 15px;
+  padding: 14px 20px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  transition: border-color .2s, color .2s;
+}
+.btn-secondary:hover { border-color: var(--fg3); color: var(--fg); }
+
+/* Phone mockup */
+.hero-visual {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+.phone-frame {
+  width: 220px;
+  height: 440px;
+  background: var(--bg2);
+  border: 2px solid var(--border);
+  border-radius: 32px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 40px 80px rgba(0,0,0,.5);
+}
+.phone-screen {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #0f0f0f;
+}
+.phone-header {
+  background: #141414;
+  padding: 14px 14px 10px;
+  border-bottom: 1px solid #232323;
+}
+.phone-title {
+  font-family: var(--font-display);
+  font-size: 15px;
+  letter-spacing: 2px;
+  color: var(--white);
+  text-align: center;
+}
+.phone-title span { color: var(--red); }
+.leaderboard-label {
+  font-size: 9px;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: #555;
+  text-align: center;
+  margin-top: 4px;
+}
+.phone-body { flex: 1; padding: 10px; display: flex; flex-direction: column; gap: 6px; overflow: hidden; }
+.lb-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  background: #191919;
+  border-radius: 8px;
+  border-left: 2px solid transparent;
+}
+.lb-row.gold { border-color: #f5c842; }
+.lb-row.silver { border-color: #aaa; }
+.lb-row.bronze { border-color: #c87533; }
+.lb-rank {
+  font-family: var(--font-display);
+  font-size: 14px;
+  color: #555;
+  width: 14px;
+  text-align: center;
+}
+.lb-row.gold .lb-rank { color: #f5c842; }
+.lb-row.silver .lb-rank { color: #aaa; }
+.lb-row.bronze .lb-rank { color: #c87533; }
+.lb-avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--red);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+  color: white;
+  flex-shrink: 0;
+}
+.lb-info { flex: 1; min-width: 0; }
+.lb-name { font-size: 10px; font-weight: 600; color: #ddd; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.lb-gym { font-size: 8px; color: #555; }
+.lb-weight {
+  font-family: var(--font-display);
+  font-size: 14px;
+  color: var(--red);
+  letter-spacing: 1px;
+}
+.lb-unit { font-size: 7px; color: #555; }
+.phone-tab-bar {
+  display: flex;
+  background: #141414;
+  border-top: 1px solid #232323;
+  padding: 8px 0 6px;
+}
+.tab-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  font-size: 7px;
+  color: #444;
+  font-weight: 500;
+}
+.tab-item.active { color: var(--red); }
+.tab-icon { font-size: 14px; }
+.glow-ring {
+  position: absolute;
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(230,48,48,.12) 0%, transparent 70%);
+  pointer-events: none;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* ─── SECTION WRAPPER ─── */
+.section {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 80px 0;
+}
+.section + .section { border-top: 1px solid var(--border); }
+.section-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 12px;
+}
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 4vw, 52px);
+  letter-spacing: 2px;
+  line-height: 1;
+  text-wrap: balance;
+  margin-bottom: 16px;
+}
+.section-sub {
+  font-size: 16px;
+  color: var(--fg2);
+  max-width: 520px;
+  line-height: 1.65;
+}
+
+/* ─── FEATURES ─── */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-top: 48px;
+}
+.feature-card {
+  background: var(--bg2);
+  padding: 32px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.feature-icon {
+  font-size: 28px;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.feature-title {
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--fg);
+}
+.feature-desc {
+  font-size: 14px;
+  color: var(--fg2);
+  line-height: 1.55;
+}
+
+/* ─── HOW IT WORKS ─── */
+.steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+  margin-top: 48px;
+}
+.step { display: flex; flex-direction: column; gap: 12px; }
+.step-num {
+  font-family: var(--font-display);
+  font-size: 48px;
+  color: var(--red);
+  line-height: 1;
+  opacity: .7;
+}
+.step-title { font-weight: 700; font-size: 16px; }
+.step-desc { font-size: 14px; color: var(--fg2); line-height: 1.6; }
+
+/* ─── PRICING ─── */
+.pricing-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-top: 48px;
+  max-width: 760px;
+}
+.pricing-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 32px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.pricing-card.featured {
+  border-color: var(--red);
+  position: relative;
+  overflow: hidden;
+}
+.pricing-card.featured::before {
+  content: "EARLY BIRD";
+  position: absolute;
+  top: 16px;
+  right: -24px;
+  background: var(--red);
+  color: white;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .15em;
+  padding: 4px 32px;
+  transform: rotate(45deg);
+}
+.pricing-tier {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--fg3);
+}
+.pricing-price {
+  font-family: var(--font-display);
+  font-size: 48px;
+  letter-spacing: 1px;
+  line-height: 1;
+  color: var(--fg);
+}
+.pricing-price small {
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--fg2);
+  font-weight: 400;
+}
+.pricing-desc { font-size: 14px; color: var(--fg2); line-height: 1.55; }
+.pricing-features { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.pricing-features li {
+  font-size: 14px;
+  color: var(--fg2);
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+.pricing-features li::before {
+  content: "✓";
+  color: var(--red);
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.pricing-features li.locked::before { content: "✕"; color: var(--fg3); }
+.pricing-features li.locked { color: var(--fg3); }
+.pricing-btn {
+  display: block;
+  text-align: center;
+  padding: 13px;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 14px;
+  transition: background .2s, border-color .2s;
+  margin-top: auto;
+}
+.pricing-btn-outline {
+  border: 1px solid var(--border);
+  color: var(--fg2);
+}
+.pricing-btn-outline:hover { border-color: var(--fg3); color: var(--fg); }
+.pricing-btn-filled {
+  background: var(--red);
+  color: white;
+  border: 1px solid var(--red);
+}
+.pricing-btn-filled:hover { background: var(--red-dim); border-color: var(--red-dim); }
+
+/* ─── DOWNLOAD ─── */
+.download-band {
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.download-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 72px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+.download-title {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 4vw, 48px);
+  letter-spacing: 2px;
+  line-height: 1;
+  text-wrap: balance;
+}
+.download-title em { color: var(--red); font-style: normal; }
+.store-buttons { display: flex; gap: 12px; flex-wrap: wrap; }
+.store-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 20px;
+  transition: border-color .2s;
+  min-width: 160px;
+}
+.store-btn:hover { border-color: var(--fg3); }
+.store-icon { font-size: 24px; }
+.store-label { display: flex; flex-direction: column; }
+.store-label small { font-size: 10px; color: var(--fg3); letter-spacing: .05em; }
+.store-label strong { font-size: 14px; font-weight: 600; }
+
+/* ─── FOOTER ─── */
+footer {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 40px 0 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  border-top: 1px solid var(--border);
+}
+.footer-logo {
+  font-family: var(--font-display);
+  font-size: 20px;
+  letter-spacing: 3px;
+}
+.footer-logo .gym { color: var(--red); }
+.footer-links { display: flex; gap: 24px; }
+.footer-links a {
+  font-size: 13px;
+  color: var(--fg3);
+  transition: color .2s;
+}
+.footer-links a:hover { color: var(--fg2); }
+.footer-copy { font-size: 12px; color: var(--fg3); }
+
+/* ─── LEGAL PAGES ─── */
+.legal-page {
+  display: none;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 60px 0 80px;
+}
+.legal-page h1 {
+  font-family: var(--font-display);
+  font-size: 40px;
+  letter-spacing: 3px;
+  color: var(--fg);
+  margin-bottom: 6px;
+}
+.legal-date {
+  font-size: 13px;
+  color: var(--fg3);
+  margin-bottom: 36px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+}
+.legal-page h2 {
+  font-family: var(--font-display);
+  font-size: 17px;
+  letter-spacing: 2px;
+  color: var(--red);
+  margin: 32px 0 10px;
+}
+.legal-page p { font-size: 15px; color: var(--fg2); margin-bottom: 12px; }
+.legal-page ul { padding-left: 18px; margin-bottom: 14px; }
+.legal-page li { font-size: 15px; color: var(--fg2); margin-bottom: 6px; line-height: 1.6; }
+.legal-page strong { color: var(--fg); font-weight: 600; }
+.legal-page a { color: var(--red); }
+.legal-page a:hover { text-decoration: underline; }
+.legal-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--fg3);
+  margin-bottom: 36px;
+  transition: color .2s;
+  cursor: pointer;
+}
+.legal-back:hover { color: var(--fg2); }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 860px) {
+  .hero { grid-template-columns: 1fr; gap: 48px; padding: 60px 0 60px; }
+  .hero-visual { order: -1; }
+  .features-grid { grid-template-columns: 1fr 1fr; }
+  .steps { grid-template-columns: 1fr; gap: 28px; }
+  .pricing-grid { grid-template-columns: 1fr; max-width: 400px; }
+  .download-inner { flex-direction: column; gap: 28px; text-align: center; }
+  .store-buttons { justify-content: center; }
+  footer { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .nav-links { display: none; }
+  .nav-hamburger { display: flex; }
+  .nav-links.open {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0; right: 0;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    padding: 20px max(24px, env(safe-area-inset-left, 0px));
+    gap: 16px;
+    z-index: 99;
+  }
+}
+@media (max-width: 540px) {
+  .features-grid { grid-template-columns: 1fr; }
+  .hero h1 { font-size: 48px; }
+}
+</style>
+
+<!-- MAIN SITE -->
+<div id="site">
+  <!-- NAV -->
+  <nav id="main-nav">
+    <a href="#" class="nav-logo" onclick="showPage('home')">
+      <span class="gym">GYM</span><span class="rival">RIVAL</span>
+    </a>
+    <div class="nav-links" id="nav-links">
+      <a href="#features" onclick="closeMenu()">Features</a>
+      <a href="#pricing" onclick="closeMenu()">Pricing</a>
+      <a href="#download" onclick="closeMenu()">Download</a>
+      <a href="#download" class="nav-cta" onclick="closeMenu()">Get the App</a>
+    </div>
+    <button class="nav-hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- HERO -->
+  <div class="section">
+    <div class="hero">
+      <div class="hero-content">
+        <div class="hero-eyebrow">Compete. Conquer. Repeat.</div>
+        <h1>THE GYM IS A <em>BATTLEFIELD</em></h1>
+        <p class="hero-sub">Log your PRs, upload video proof, and battle gymers worldwide on a live leaderboard. The strongest climb. The rest train harder.</p>
+        <div class="hero-actions">
+          <a href="#download" class="btn-primary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 16l-6-6h4V4h4v6h4l-6 6z"/><path d="M4 20h16"/></svg>
+            Download Free
+          </a>
+          <a href="#features" class="btn-secondary">See Features</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="glow-ring"></div>
+        <div class="phone-frame">
+          <div class="phone-screen">
+            <div class="phone-header">
+              <div class="phone-title"><span>GYM</span>RIVAL</div>
+              <div class="leaderboard-label">Bench Press · Global</div>
+            </div>
+            <div class="phone-body">
+              <div class="lb-row gold">
+                <div class="lb-rank">1</div>
+                <div class="lb-avatar">MK</div>
+                <div class="lb-info">
+                  <div class="lb-name">MikeKratos</div>
+                  <div class="lb-gym">Iron Temple, NL</div>
+                </div>
+                <div>
+                  <div class="lb-weight">225</div>
+                  <div class="lb-unit">KG</div>
+                </div>
+              </div>
+              <div class="lb-row silver">
+                <div class="lb-rank">2</div>
+                <div class="lb-avatar" style="background:#555">JD</div>
+                <div class="lb-info">
+                  <div class="lb-name">JDiesel</div>
+                  <div class="lb-gym">Gold's Gym, US</div>
+                </div>
+                <div>
+                  <div class="lb-weight">210</div>
+                  <div class="lb-unit">KG</div>
+                </div>
+              </div>
+              <div class="lb-row bronze">
+                <div class="lb-rank">3</div>
+                <div class="lb-avatar" style="background:#8b5cf6">AR</div>
+                <div class="lb-info">
+                  <div class="lb-name">AlphaRey</div>
+                  <div class="lb-gym">FitZone, ES</div>
+                </div>
+                <div>
+                  <div class="lb-weight">205</div>
+                  <div class="lb-unit">KG</div>
+                </div>
+              </div>
+              <div class="lb-row">
+                <div class="lb-rank">4</div>
+                <div class="lb-avatar" style="background:#059669">NS</div>
+                <div class="lb-info">
+                  <div class="lb-name">NourS</div>
+                  <div class="lb-gym">Bali Fitness, ID</div>
+                </div>
+                <div>
+                  <div class="lb-weight">195</div>
+                  <div class="lb-unit">KG</div>
+                </div>
+              </div>
+              <div class="lb-row">
+                <div class="lb-rank">5</div>
+                <div class="lb-avatar" style="background:#d97706">TK</div>
+                <div class="lb-info">
+                  <div class="lb-name">TKing</div>
+                  <div class="lb-gym">Powerhouse, DE</div>
+                </div>
+                <div>
+                  <div class="lb-weight">192</div>
+                  <div class="lb-unit">KG</div>
+                </div>
+              </div>
+            </div>
+            <div class="phone-tab-bar">
+              <div class="tab-item active"><div class="tab-icon">🏆</div><div>Board</div></div>
+              <div class="tab-item"><div class="tab-icon">📹</div><div>Feed</div></div>
+              <div class="tab-item"><div class="tab-icon">➕</div><div>Log</div></div>
+              <div class="tab-item"><div class="tab-icon">👥</div><div>Friends</div></div>
+              <div class="tab-item"><div class="tab-icon">👤</div><div>Me</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEATURES -->
+  <div class="section" id="features">
+    <div class="section-label">What's inside</div>
+    <h2 class="section-title">BUILT FOR SERIOUS LIFTERS</h2>
+    <p class="section-sub">Every feature is designed around one idea: show the world what you can lift.</p>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🏆</div>
+        <div class="feature-title">Global Leaderboard</div>
+        <div class="feature-desc">17+ exercises ranked by verified PRs. Bench, squat, deadlift, overhead — see exactly where you rank worldwide.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📹</div>
+        <div class="feature-title">Video Proof Feed</div>
+        <div class="feature-desc">Every PR requires video evidence. No fake numbers. The community keeps it real with likes and reactions.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <div class="feature-title">Weekly Challenges</div>
+        <div class="feature-desc">New competition every week. Specific lifts, time windows, global brackets. Win badges, earn XP, climb ranks.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🥗</div>
+        <div class="feature-title">Macro Tracker</div>
+        <div class="feature-desc">Log your protein, carbs and fats alongside your training. See how nutrition affects your strength gains.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <div class="feature-title">Progress Graphs</div>
+        <div class="feature-desc">Your PR history visualized. Watch the curve go up. Every session logged, every PR celebrated.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🤖</div>
+        <div class="feature-title">AI Coach</div>
+        <div class="feature-desc">Instant answers to your training questions. Programming, form cues, recovery — all in the app.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <div class="section">
+    <div class="section-label">How it works</div>
+    <h2 class="section-title">THREE STEPS TO THE TOP</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-title">Log your PR</div>
+        <div class="step-desc">Pick your exercise, enter your weight, and record a short video of the lift. That's your proof — no video, no rank.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-title">Hit the leaderboard</div>
+        <div class="step-desc">Your PR goes live instantly. See your rank globally and against your friends. Watch others try to pass you.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-title">Train. Beat your rank.</div>
+        <div class="step-desc">Use the app to track progress, follow challenges, and come back with a heavier lift. The grind has a scoreboard now.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRICING -->
+  <div class="section" id="pricing">
+    <div class="section-label">Pricing</div>
+    <h2 class="section-title">START FREE. GO PRO.</h2>
+    <p class="section-sub">First 500 subscribers lock in the early bird rate forever.</p>
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <div class="pricing-tier">Free</div>
+        <div class="pricing-price">€0 <small>/ forever</small></div>
+        <div class="pricing-desc">Get a taste of the competition. Perfect for trying it out.</div>
+        <ul class="pricing-features">
+          <li>Top 3 leaderboard rankings</li>
+          <li>3 exercises (bench, squat, overhead)</li>
+          <li>Video proof feed</li>
+          <li class="locked">Full leaderboard (17+ exercises)</li>
+          <li class="locked">Weekly challenges</li>
+          <li class="locked">Macro tracker</li>
+          <li class="locked">AI Coach</li>
+        </ul>
+        <a href="#download" class="pricing-btn pricing-btn-outline">Download Free</a>
+      </div>
+      <div class="pricing-card featured">
+        <div class="pricing-tier">Pro — Early Bird</div>
+        <div class="pricing-price">€4.99 <small>/ month</small></div>
+        <div class="pricing-desc">Full access. Lock in this rate for life — goes up to €7.99 after the first 500.</div>
+        <ul class="pricing-features">
+          <li>Everything in Free</li>
+          <li>Full leaderboard (17+ exercises)</li>
+          <li>Weekly &amp; monthly challenges</li>
+          <li>Macro tracker</li>
+          <li>AI Coach</li>
+          <li>Progress graphs</li>
+          <li>Badges &amp; XP system</li>
+        </ul>
+        <a href="#download" class="pricing-btn pricing-btn-filled">Get Pro — €4.99/mo</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- DOWNLOAD -->
+  <div class="download-band" id="download">
+    <div class="download-inner">
+      <div>
+        <h2 class="download-title">YOUR RIVALS ARE<br><em>ALREADY TRAINING</em></h2>
+      </div>
+      <div class="store-buttons">
+        <a href="https://apps.apple.com" target="_blank" class="store-btn">
+          <div class="store-icon">🍎</div>
+          <div class="store-label">
+            <small>Download on the</small>
+            <strong>App Store</strong>
+          </div>
+        </a>
+        <a href="https://play.google.com" target="_blank" class="store-btn">
+          <div class="store-icon">▶</div>
+          <div class="store-label">
+            <small>Get it on</small>
+            <strong>Google Play</strong>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo"><span class="gym">GYM</span><span class="rival">RIVAL</span></div>
+    <div class="footer-links">
+      <a href="#" onclick="showPage('privacy'); return false;">Privacy Policy</a>
+      <a href="#" onclick="showPage('terms'); return false;">Terms of Service</a>
+      <a href="mailto:support@gymrival.app">support@gymrival.app</a>
+    </div>
+    <div class="footer-copy">© 2026 GymRival. All rights reserved.</div>
+  </footer>
+</div>
+
+<!-- PRIVACY PAGE -->
+<div id="privacy-page" class="legal-page">
+  <nav id="legal-nav" style="position:sticky;top:env(safe-area-inset-top,0px);z-index:100;background:var(--bg);border-bottom:1px solid var(--border);padding-block:16px;padding-left:max(24px,env(safe-area-inset-left,0px));padding-right:max(24px,env(safe-area-inset-right,0px));display:flex;align-items:center;justify-content:space-between;gap:16px;max-width:none;margin:0 -16px 40px;">
+    <a href="#" class="nav-logo" onclick="showPage('home'); return false;" style="font-family:var(--font-display);font-size:22px;letter-spacing:3px;line-height:1;"><span style="color:var(--red)">GYM</span><span style="color:var(--fg)">RIVAL</span></a>
+    <span onclick="showPage('home')" class="legal-back">← Back to site</span>
+  </nav>
+  <h1>PRIVACY POLICY</h1>
+  <div class="legal-date">Last updated: November 15, 2026 · Effective: November 15, 2026</div>
+  <p>GymRival ("we," "us," or "our") operates the GymRival mobile application. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our app. By using GymRival, you agree to the practices described here.</p>
+  <h2>1. INFORMATION WE COLLECT</h2>
+  <p>We collect information you provide directly and information generated through your use of the app.</p>
+  <ul>
+    <li><strong>Account data:</strong> Name, email address, username, and password when you register.</li>
+    <li><strong>Profile data:</strong> Profile photo, bio, gym name, personal quote, and any other details you add to your profile.</li>
+    <li><strong>Fitness data:</strong> Personal records (PRs), exercise logs, body weight entries, progress photos, and body scan images you submit.</li>
+    <li><strong>Content:</strong> Videos and photos you upload as proof of personal records, as well as messages you send in chat.</li>
+    <li><strong>Usage data:</strong> Features you interact with, session times, and in-app actions such as likes and gym check-ins.</li>
+    <li><strong>Device data:</strong> Device type, operating system version, and unique device identifiers.</li>
+    <li><strong>Payment data:</strong> Subscription purchases are handled by Apple App Store and Google Play. We do not store your payment card details.</li>
+  </ul>
+  <h2>2. HOW WE USE YOUR INFORMATION</h2>
+  <ul>
+    <li>To create and manage your account and authenticate you.</li>
+    <li>To display your personal records on leaderboards and in the community feed.</li>
+    <li>To enable social features: friends, challenges, chat, and notifications.</li>
+    <li>To process and manage your Pro subscription via RevenueCat.</li>
+    <li>To improve the app, diagnose technical issues, and develop new features.</li>
+    <li>To send transactional notifications (friend requests, likes, challenge results).</li>
+    <li>To comply with legal obligations and enforce our Terms of Service.</li>
+  </ul>
+  <h2>3. HOW WE SHARE YOUR INFORMATION</h2>
+  <p>We do not sell your personal data. We share it only as follows:</p>
+  <ul>
+    <li><strong>Other users:</strong> Your username, profile, PRs, and submitted videos are visible to other GymRival users as part of the app's core social functionality.</li>
+    <li><strong>Service providers:</strong> Supabase (database and authentication), Cloudinary (media storage), and RevenueCat (subscription management) process data on our behalf under confidentiality obligations.</li>
+    <li><strong>App stores:</strong> Apple App Store and Google Play manage payments and provide us with basic transaction data.</li>
+    <li><strong>Legal requirements:</strong> We may disclose data if required by law, court order, or to protect the rights and safety of our users.</li>
+  </ul>
+  <h2>4. DATA STORAGE AND SECURITY</h2>
+  <p>Your data is stored on Supabase infrastructure. We apply industry-standard security measures including encryption in transit (TLS) and at rest. No method of transmission over the internet is 100% secure; we cannot guarantee absolute security but take reasonable precautions.</p>
+  <h2>5. DATA RETENTION</h2>
+  <p>We retain your data for as long as your account is active. If you delete your account, we will delete your personal data within 30 days, except where retention is required by applicable law.</p>
+  <h2>6. YOUR RIGHTS (GDPR)</h2>
+  <p>If you are in the European Economic Area, you have the right to access, rectify, erase, restrict, port, or object to the processing of your personal data. To exercise any of these rights, email us at <a href="mailto:support@gymrival.app">support@gymrival.app</a>. We will respond within 30 days.</p>
+  <h2>7. CHILDREN'S PRIVACY</h2>
+  <p>GymRival is not directed to children under the age of 13. We do not knowingly collect personal data from children under 13. If we learn we have collected such data, we will delete it promptly.</p>
+  <h2>8. THIRD-PARTY SERVICES</h2>
+  <ul>
+    <li><strong>Supabase</strong> — Database hosting and authentication</li>
+    <li><strong>Cloudinary</strong> — Video and image storage</li>
+    <li><strong>RevenueCat</strong> — In-app subscription management</li>
+    <li><strong>Apple App Store / Google Play</strong> — App distribution and payments</li>
+  </ul>
+  <h2>9. CHANGES TO THIS POLICY</h2>
+  <p>We may update this policy periodically. We will notify you of material changes through the app or by email. Continued use of GymRival after changes take effect constitutes acceptance.</p>
+  <h2>10. CONTACT US</h2>
+  <p>Email: <a href="mailto:support@gymrival.app">support@gymrival.app</a> · Website: gymrival.app</p>
+  <p style="font-size:13px;color:var(--fg3);margin-top:24px;">This policy is governed by the laws of the Netherlands and complies with the General Data Protection Regulation (GDPR — EU 2016/679).</p>
+</div>
+
+<!-- TERMS PAGE -->
+<div id="terms-page" class="legal-page">
+  <nav style="position:sticky;top:env(safe-area-inset-top,0px);z-index:100;background:var(--bg);border-bottom:1px solid var(--border);padding-block:16px;padding-left:max(24px,env(safe-area-inset-left,0px));padding-right:max(24px,env(safe-area-inset-right,0px));display:flex;align-items:center;justify-content:space-between;gap:16px;max-width:none;margin:0 -16px 40px;">
+    <a href="#" class="nav-logo" onclick="showPage('home'); return false;" style="font-family:var(--font-display);font-size:22px;letter-spacing:3px;line-height:1;"><span style="color:var(--red)">GYM</span><span style="color:var(--fg)">RIVAL</span></a>
+    <span onclick="showPage('home')" class="legal-back">← Back to site</span>
+  </nav>
+  <h1>TERMS OF SERVICE</h1>
+  <div class="legal-date">Last updated: November 15, 2026 · Effective: November 15, 2026</div>
+  <p>Welcome to GymRival. By downloading, installing, or using the GymRival application ("App"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree, do not use the App.</p>
+  <h2>1. ELIGIBILITY</h2>
+  <p>You must be at least 13 years old to use GymRival. By using the App, you represent that you meet this requirement. If you are under 18, you must have your parent or legal guardian's permission.</p>
+  <h2>2. ACCOUNT REGISTRATION</h2>
+  <ul>
+    <li>You must provide accurate and complete information when creating an account.</li>
+    <li>You are responsible for maintaining the confidentiality of your login credentials.</li>
+    <li>You are responsible for all activity that occurs under your account.</li>
+    <li>Notify us immediately at <a href="mailto:support@gymrival.app">support@gymrival.app</a> if you suspect unauthorized access.</li>
+    <li>We reserve the right to suspend or terminate accounts that violate these Terms.</li>
+  </ul>
+  <h2>3. SUBSCRIPTIONS AND PAYMENTS</h2>
+  <ul>
+    <li><strong>Free tier:</strong> Access to 3 exercises (bench press, squat, overhead press) and top-3 leaderboard rankings.</li>
+    <li><strong>Pro subscription:</strong> Full access to all 17+ leaderboard exercises and all app features. €4.99/month for the first 500 subscribers (early bird), then €7.99/month.</li>
+    <li>Subscriptions are billed monthly through Apple App Store or Google Play and managed via RevenueCat.</li>
+    <li>Payments are non-refundable except as required by applicable law.</li>
+    <li>You may cancel at any time through your app store account settings. Cancellation takes effect at the end of the current billing period.</li>
+  </ul>
+  <h2>4. USER CONTENT</h2>
+  <ul>
+    <li>You retain ownership of your User Content (videos, photos, messages).</li>
+    <li>By uploading content, you grant GymRival a non-exclusive, worldwide, royalty-free license to display and distribute your content within the App.</li>
+    <li>You represent that you own or have the rights to all content you upload.</li>
+    <li>You are solely responsible for the accuracy of personal record claims.</li>
+  </ul>
+  <h2>5. PROHIBITED CONDUCT</h2>
+  <ul>
+    <li>Submitting false or fabricated personal records or fake video proof.</li>
+    <li>Harassing, bullying, threatening, or abusing other users.</li>
+    <li>Posting illegal, obscene, or defamatory content.</li>
+    <li>Attempting to reverse-engineer, hack, or interfere with the App.</li>
+    <li>Using automated tools (bots, scrapers) to access or interact with the App.</li>
+    <li>Creating multiple accounts to circumvent bans or gain unfair advantages.</li>
+  </ul>
+  <h2>6. COMMUNITY AND LEADERBOARDS</h2>
+  <p>Leaderboard rankings are based on user-submitted PRs with video proof. We reserve the right to remove records we reasonably believe are false or obtained through prohibited means.</p>
+  <h2>7. INTELLECTUAL PROPERTY</h2>
+  <p>All elements of the GymRival App — including the name, logo, design, code, and features — are owned by GymRival and protected by intellectual property law. You may not reproduce or distribute any part without our express written permission.</p>
+  <h2>8. DISCLAIMERS</h2>
+  <p>GymRival is provided "as is" without warranties of any kind. Fitness information in the App does not constitute professional medical or fitness advice. <strong>Always consult a qualified fitness professional before attempting heavy lifts. Fitness training carries inherent risk of injury.</strong></p>
+  <h2>9. LIMITATION OF LIABILITY</h2>
+  <p>To the maximum extent permitted by law, GymRival and its operators shall not be liable for any indirect, incidental, or consequential damages arising from your use of the App.</p>
+  <h2>10. TERMINATION</h2>
+  <p>We may suspend or terminate your account at any time for violation of these Terms. You may delete your account at any time through the App settings.</p>
+  <h2>11. GOVERNING LAW</h2>
+  <p>These Terms are governed by the laws of the Netherlands. Disputes shall be submitted to the competent courts of the Netherlands, unless applicable consumer law in your country of residence provides otherwise.</p>
+  <h2>12. CONTACT</h2>
+  <p>Email: <a href="mailto:support@gymrival.app">support@gymrival.app</a> · Website: gymrival.app</p>
+</div>
+
+<script>
+function showPage(page) {
+  const site = document.getElementById('site');
+  const privacy = document.getElementById('privacy-page');
+  const terms = document.getElementById('terms-page');
+  site.style.display = 'none';
+  privacy.style.display = 'none';
+  terms.style.display = 'none';
+  if (page === 'home') {
+    site.style.display = 'block';
+    window.scrollTo(0, 0);
+  } else if (page === 'privacy') {
+    privacy.style.display = 'block';
+    window.scrollTo(0, 0);
+  } else if (page === 'terms') {
+    terms.style.display = 'block';
+    window.scrollTo(0, 0);
+  }
+}
+function toggleMenu() {
+  document.getElementById('nav-links').classList.toggle('open');
+}
+function closeMenu() {
+  document.getElementById('nav-links').classList.remove('open');
+}
+// Handle direct URL hash for legal pages (for when hosted on Vercel)
+const hash = location.hash;
+if (hash === '#privacy') showPage('privacy');
+else if (hash === '#terms') showPage('terms');
+</script>
